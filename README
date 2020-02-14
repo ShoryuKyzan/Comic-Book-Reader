@@ -1,0 +1,14 @@
+Set up a /etc/hosts mapping for
+	api.comicsite.com <ip address of api docker container or docker host with container port exposed>
+	comicsite.com <ip address of web docker container or docker host with container port exposed>
+
+urls
+	dev
+		api.comicsite.com:8000 -> api container, docker machine IP 8000:8000
+		comicsite.com:3000 -> localhost reactapp npm run start -watch
+	prod
+		api.comicsite.com:8000 -> api container, docker machine IP 8000:8000
+		comicsite.com:80 -> web container, docker machine IP 80:80
+
+	More realistic prod configuration would use docker swarm or kubernetes with defined services that would be accessed instead of these host:port kind of things
+		that is a TODO for this project but requires more extensive setup

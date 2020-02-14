@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+    db:
+        image: mysql:5.7
+        environment:
+            MYSQL_DATABASE: 'comicsite'
+            MYSQL_USER: 'root'
+            MYSQL_PASSWORD: 'comicsitemysql123'
+            MYSQL_ROOT_PASSWORD: 'comicsitemysql123'
+    api:
+        build:
+            context: .
+            dockerfile: docker-env/prod/django/Dockerfile
+        ports:
+            - "8080:8000"
+        depends_on:
+            - db
+    web:
+        build:
+            context: frontend/
+            dockerfile: docker-env/prod/nginx/Dockerfile
+        ports:
+            - "80:80"
+

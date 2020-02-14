@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+    db:
+        image: mysql:5.7
+        # XXX not sure i need this if its in the same network...
+        #ports:
+        #    - '3306:3306'
+        environment:
+            MYSQL_DATABASE: 'comicsite'
+            MYSQL_USER: 'root'
+            MYSQL_PASSWORD: 'comicsitemysql123'
+            MYSQL_ROOT_PASSWORD: 'comicsitemysql123'
+    api:
+        build:
+            context: .
+            dockerfile: docker-env/dev/django/Dockerfile
+        command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        volumes:
+            - ./comicsite/:/code
+        ports:
+            - "8000:8000"
+        depends_on:
+            - db
