@@ -5,17 +5,34 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link // XXX
 } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
 import Backend from './api/Backend';
 
-
 import SeriesPage from './components/SeriesPage';
-
-
+import Header from './components/Header';
 
 const siteSeries = 'lonely-hooves';
 
+const styles = {
+  main: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    overflow: 'hidden'
+  },
+  bodyWrapper:{
+    position: 'absolute',
+    top: '3em',
+    bottom: '0',
+    left: '0',
+    right: '0',
+    overflow: 'scroll'
+  }
+};
 
 class App extends React.Component {
 
@@ -32,20 +49,26 @@ class App extends React.Component {
   }
 
   render() {
+    const classes = this.props.classes;
     return (
-      <Router>
-          {/* TODO Link sidebar menu (mobile-first, collapses to menu hamburger) */}
-          {/* A <Switch> looks through its children <Route>s and
-              renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/">
-              <SeriesPage series={this.state.series}/>
-            </Route>
-          </Switch>
-      </Router>
+      <div className={classes.main}>
+        <Router>
+          <Header />
+          <div className={classes.bodyWrapper}>
+            <Switch>
+              <Route path="/archive">
+                archive page here
+              </Route>
+              <Route path="/">
+                <SeriesPage series={this.state.series}/>
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </div>
     );
   }
 
 }
 
-export default App;
+export default withStyles(styles)(App);

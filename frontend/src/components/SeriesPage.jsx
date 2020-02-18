@@ -47,10 +47,13 @@ class SeriesPage extends React.Component
                 <Checkbox
                     onChange={(e) => this.setState({skipNonChapter: e.target.checked})} 
                     checked={this.state.skipNonChapter}/>Skip Non-Chapter pages
-                <ChapterSelector
-                    series={this.props.series}
-                    selected={this.state.chapter}
-                    onChapterChanged={this.onChapterChanged.bind(this)}/>
+                <div>
+                    <div>Chapter:</div>
+                    <ChapterSelector
+                        series={this.props.series}
+                        selected={this.state.chapter}
+                        onChapterChanged={this.onChapterChanged.bind(this)}/>
+                </div>
             </div>
         );
     }

@@ -1,6 +1,13 @@
 import React from 'react';
 import Backend from '../api/Backend';
+import { withStyles } from '@material-ui/core/styles';
 import { Select, MenuItem } from '@material-ui/core';
+
+const styles = {
+    chapterSel: {
+        width: '100%'
+    }
+};  
 
 class ChapterSelector extends React.Component
 {
@@ -11,13 +18,14 @@ class ChapterSelector extends React.Component
         };
     }
     
-    async componentDidMount(){
+    async componentDidUpdate(prevProps){
         // load
-        // XXX problem ... if data isnt loaded then we'll have a problem
-        // XXX are we supposed to call a load function in render only because that gets called?
-        // the async thing doesnt like this though... it causes issue with render function...
-        const list = await Backend.Series.chapters(this.props.series.id);
-        this.setState({list: list});
+        if(prevProps.series !== this.props.series){
+            if(this.props.series){
+                const list = await Backend.Series.chapters(this.props.series.id);
+                this.setState({list: list});
+            }
+        }
     }
    
     onChapterChanged(e){
@@ -36,8 +44,10 @@ class ChapterSelector extends React.Component
             selectedChapter = this.props.selected;
         }
 
+        const classes = this.props.classes;
+
         return (
-            <Select value={selectedChapter} onChange={this.onChapterChanged.bind(this)}>
+            <Select className={classes.chapterSel} value={selectedChapter} onChange={this.onChapterChanged.bind(this)}>
                 {chapters}
             </Select>
         );
@@ -45,4 +55,4 @@ class ChapterSelector extends React.Component
 
 }
 
-export default ChapterSelector;
+export default withStyles(styles)(ChapterSelector);

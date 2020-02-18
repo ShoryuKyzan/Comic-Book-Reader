@@ -1,4 +1,12 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+    img: {
+        width: '100%',
+        height: '100%',
+    }
+};  
 
 class ComicPage extends React.Component
 {
@@ -12,11 +20,14 @@ class ComicPage extends React.Component
     }
 
     render(){
+        const classes = this.props.classes;
         return (
-            <div></div>
+            <div>
+                <img className={classes.img} src="images/placeholder.jpg"/>
+            </div>
         );
     }
 
 }
 
-export default ComicPage;
+export default withStyles(styles)(ComicPage);
