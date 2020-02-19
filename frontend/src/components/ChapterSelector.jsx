@@ -5,7 +5,9 @@ import { Select, MenuItem } from '@material-ui/core';
 
 const styles = {
     chapterSel: {
-        width: '100%'
+        width: '100%',
+        border: '1px solid darkblue',
+        backgroundColor: 'lightblue'
     }
 };  
 
@@ -47,9 +49,11 @@ class ChapterSelector extends React.Component
         const classes = this.props.classes;
 
         return (
-            <Select className={classes.chapterSel} value={selectedChapter} onChange={this.onChapterChanged.bind(this)}>
-                {chapters}
-            </Select>
+            <div className={classes.wrapper}>
+                <Select className={classes.chapterSel} value={selectedChapter} onChange={this.onChapterChanged.bind(this)}>
+                    {chapters}
+                </Select>
+            </div>
         );
     }
 
