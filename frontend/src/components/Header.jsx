@@ -27,9 +27,9 @@ class Header extends React.Component
         const classes = this.props.classes;
         return (
             <div className={classes.header}>
-                <SiteMenu />
+                <SiteMenu menuTitle={this.props.title}/>
                 {/*<a className={classes.menuLink} href="#">&nbsp;</a>*/}
-                <span className={classes.title}>XXX Series Title</span>
+                <span className={classes.title}>{this.props.title}</span>
             </div>
         );
     }

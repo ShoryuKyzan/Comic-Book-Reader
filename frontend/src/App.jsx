@@ -53,11 +53,11 @@ class App extends React.Component {
     return (
       <div className={classes.main}>
         <Router>
-          <Header />
+          <Header title={this.state.series ? this.state.series.name : ''}/>
           <div className={classes.bodyWrapper}>
             <Switch>
               <Route path="/archive">
-                archive page here
+                TODO archive page
               </Route>
               <Route path="/">
                 <SeriesPage series={this.state.series}/>

@@ -1,51 +1,35 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { slide as Menu } from 'react-burger-menu'
+import Sidebar from "react-sidebar";
 import { withStyles } from '@material-ui/core/styles';
 
 
-var styles = {};
-
-// needed by Menu
-var burgerStyles = {
-    bmBurgerButton: {
-        position: 'fixed',
-        width: '2.2em',
-        height: '1.9em',
-        left: '1em',
-        top: '0.6em'
+var sidebarStyle = {
+    sidebar: {
+        background: '#00003e',
+        width: '70%',
+        maxWidth: '16em' /* TODO test in portrait mode */
+    }
+};
+var styles = {
+    menuButton: {
+        position: 'absolute',
+        top: '0.8em',
+        left: '1.3em',
+        width: '2.5em',
+        height: '2.5em',
+        background: 'lightblue url(images/menu.svg)',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+        padding: '1em',
+        border: 'none',
+        borderRadius: '0.5em'
     },
-    bmBurgerBars: {
-        background: 'white'
+    sidebar: {
+        width: '100%',
+        overflow: 'hidden'
     },
-    bmBurgerBarsHover: {
-        background: '#a90000'
-    },
-    bmCrossButton: {
-        height: '24px',
-        width: '24px'
-    },
-    bmCross: {
-        background: '#bdc3c7'
-    },
-    bmMenuWrap: {
-        position: 'fixed',
-        height: '100%',
-        right: '4em'
-    },
-    bmMenu: {
-        background: '#373a47',
-        padding: '2.5em 1.5em 0',
-        fontSize: '1.15em'
-    },
-    bmMorphShape: {
-        fill: '#373a47'
-    },
-    bmItemList: {
-        color: '#b8b7ad',
-        padding: '0.8em'
-    },
-    bmItem: {
+    menuLink: {
         display: 'block',
         padding: '0.3em 0.4em',
         marginBottom: '0.5em',
@@ -53,29 +37,62 @@ var burgerStyles = {
         background: 'white',
         color: 'black'
     },
-    bmOverlay: {
-        background: 'rgba(0, 0, 0, 0.3)'
+    menuLinksWrapper: {
+        width: '13em',
+        overflow: 'hidden',
+        padding: '0.9em 1em'
+    },
+    menuTitle: {
+        fontSize: '1.6em',
+        marginLeft: '0.5em',
+        fontVariant: 'small-caps',
+        color: 'white'
     }
 };
-  
+
 class SiteMenu extends React.Component
 {
     constructor(props){
         super(props);
+        this.state = {
+            menuOpen: false
+        };
+
+        this.sidebarStateChanged = this.sidebarStateChanged.bind(this);
+        this.closeMenu = this.closeMenu.bind(this);
     }
 
-    // TODO auto-close menu on link click
+    /* sync state of menu with state of component */
+    sidebarStateChanged (open) {
+        this.setState({menuOpen: open})  
+    }
+
+    closeMenu(){
+        this.setState({menuOpen: false});
+    }
     
     render(){
         const classes = this.props.classes;
-        return (
-            <Menu styles={burgerStyles}>
-                <Link to="/">Home</Link>
-                <Link to="/archive">Archive</Link>
-            </Menu>
-            );
-        }
 
+        return (
+            <Sidebar
+                sidebar={
+                    <div className={classes.sidebar}>
+                        {/* TODO try and add a site title to sidebar */}
+                        <div className={classes.menuTitle}>{this.props.menuTitle}</div>
+                        <div className={classes.menuLinksWrapper}>
+                            <Link className={classes.menuLink} onClick={this.closeMenu} to="/">Home</Link>
+                            <Link className={classes.menuLink} onClick={this.closeMenu} to="/archive">Archive</Link>
+                        </div>
+                    </div>
+                }
+                open={this.state.menuOpen}
+                onSetOpen={this.sidebarStateChanged}
+                styles={sidebarStyle}>
+                    <button className={classes.menuButton} onClick={() => this.sidebarStateChanged(true)}></button>
+            </Sidebar>
+        );
+    }
 }
 
 export default withStyles(styles)(SiteMenu);
