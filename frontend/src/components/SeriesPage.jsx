@@ -34,6 +34,8 @@ class SeriesPage extends React.Component
             chapterId: null,
             skipNonChapter: false
         };
+        this.onPageChanged = this.onPageChanged.bind(this);
+        this.onChapterChanged = this.onChapterChanged.bind(this);
     }
 
     async componentDidMount(){
@@ -56,7 +58,7 @@ class SeriesPage extends React.Component
 
     onPageChanged(page){
         this.setState({
-            chapter: page.chapter,
+            chapter: page.chapterId,
         });
         localStorage['pageId'] = page.id;
     }
@@ -66,6 +68,7 @@ class SeriesPage extends React.Component
         return (
             <div className={classes.content}>
                 <ComicBook
+                    onPageChanged={this.onPageChanged}
                     series={this.props.series}
                     skipNonChapterPages={this.state.skipNonChapter}
                 />
@@ -82,7 +85,7 @@ class SeriesPage extends React.Component
                         <ChapterSelector
                             series={this.props.series}
                             selected={this.state.chapter}
-                            onChapterChanged={this.onChapterChanged.bind(this)}/>
+                            onChapterChanged={this.onChapterChanged}/>
                     </div>
                 </div>
             </div>

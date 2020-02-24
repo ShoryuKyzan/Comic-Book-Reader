@@ -7,9 +7,10 @@ const styles = {
     chapterSel: {
         width: '100%',
         backgroundColor: 'lightblue',
-        borderRadius: '0.8em'
+        borderRadius: '0.8em',
+        padding: '0 1em'
     }
-};  
+};
 
 class ChapterSelector extends React.Component
 {
@@ -30,29 +31,28 @@ class ChapterSelector extends React.Component
         }
     }
    
-    onChapterChanged(e){
-        this.props.onChapterChanged(e.target.value);
-    }
-
     render(){
         const chapters = [];
         this.state.list.forEach(chapter => {
             let elem = <MenuItem key={chapter.id} value={chapter}>{chapter.name}</MenuItem>;
-            // set selected item
             chapters.push(elem);
         });
-        let selectedChapter = '';
-        if(this.props.selected){
-            selectedChapter = this.props.selected;
+
+        // translate id chapter to chapter object
+        let selectedChapter = this.props.selected;
+        if(selectedChapter){
+            // find the chapter by id
+            selectedChapter = this.state.list.find(item => {
+                return item.id === this.props.selected;
+            });
         }
 
         const classes = this.props.classes;
 
         return (
             <div className={classes.wrapper}>
-                <Select className={classes.chapterSel} value={selectedChapter} onChange={this.onChapterChanged.bind(this)}>
-                    {chapters}
-                </Select>
+                <Select children={chapters} className={classes.chapterSel} value={selectedChapter ? selectedChapter : ''}
+                onChange={(e) => this.props.onChapterChanged(e.target.value.id)}/>
             </div>
         );
     }

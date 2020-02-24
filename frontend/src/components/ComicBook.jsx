@@ -37,6 +37,7 @@ class ComicBook extends React.Component
             // XXX default behavior for now, first page
             this.setState({pageIndex: 0});
             this.setState({page: this.state.pages[this.state.pageIndex]});
+            this.props.onPageChanged(this.state.pages[this.state.pageIndex]);
         }
     }
 
@@ -66,6 +67,7 @@ class ComicBook extends React.Component
             pageIndex,
             page: this.state.pages[pageIndex]
         });
+        this.props.onPageChanged(this.state.pages[pageIndex]);
     }
     nextPage(){
         // advance page but not past end
@@ -146,7 +148,8 @@ class ComicBook extends React.Component
 }
 
 ComicBook.propTypes = {
-    series: PropTypes.object.isRequired,
+    series: PropTypes.object,
+    onPageChanged: PropTypes.func,
     skipNonChapterPages: PropTypes.bool.isRequired
 };
 
