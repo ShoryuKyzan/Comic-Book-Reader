@@ -33,17 +33,33 @@ class ComicBook extends React.Component
         }
     }
 
-    nextPage(){
-        // advance page but not past end
-        let nextPage = this.state.pageIndex + 1;
+    _setPage(pageIndex){
         const maxPage = this.state.pages.length - 1;
-        if(nextPage > maxPage){
+        if(pageIndex < 0 || pageIndex > maxPage){
             return;
         }
         this.setState({
-            pageIndex: nextPage,
-            page: this.state.pages[nextPage]
+            pageIndex,
+            page: this.state.pages[pageIndex]
         });
+    }
+    nextPage(){
+        // advance page but not past end
+        let pageIndex = this.state.pageIndex + 1;
+        this._setPage(pageIndex);
+    }
+
+    prevPage(){
+        let pageIndex = this.state.pageIndex - 1;
+        this._setPage(pageIndex);
+    }
+
+    firstPage(){
+        this._setPage(0);
+    }
+
+    lastPage(){
+        this._setPage(this.state.pages.length - 1);
     }
 
     render(){
@@ -57,13 +73,21 @@ class ComicBook extends React.Component
         (desktop) should show 1/3 or 1/4 page if portrait, depending on browser width (more height for larger browser screens)
             * should  be fairly static size after that, no fluid width/height affects
         */
+        // nothing to show if empty
+        if(!this.state.pages || this.state.pages === []){
+            return (<div></div>);
+        }
         const classes = this.props.classes;
         return (
             <div>
                 <div className={classes.wrapper} onClick={this.nextPage.bind(this)}>
                     <ComicPage page={this.state.page}/>
                 </div>
-                <Pager />
+                <Pager
+                    onFirst={this.firstPage.bind(this)}
+                    onPrev={this.prevPage.bind(this)}
+                    onNext={this.nextPage.bind(this)}
+                    onLast={this.lastPage.bind(this)}/>
             </div>
         );
     }

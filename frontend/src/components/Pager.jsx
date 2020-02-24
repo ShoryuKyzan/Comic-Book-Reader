@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
@@ -44,15 +45,23 @@ class Pager extends React.Component
         return (
             <div className={classes.wrapper}>
                <div className={classes.innerWrapper}>
-                <button className={classes.button + ' ' + classes.flButton}>&lt;&lt;</button>
-                <button className={classes.button}>&lt;</button>
-                <button className={classes.button}>&gt;</button>
-                <button className={classes.button + ' ' + classes.flButton}>&gt;&gt;</button>
+                <button onClick={this.props.onFirst} className={classes.button + ' ' + classes.flButton}>&lt;&lt;</button>
+                <button onClick={this.props.onPrev} className={classes.button}>&lt;</button>
+                <button onClick={this.props.onNext} className={classes.button}>&gt;</button>
+                <button onClick={this.props.onLast} className={classes.button + ' ' + classes.flButton}>&gt;&gt;</button>
                 </div>
             </div>
         );
     }
 
 }
+
+Pager.propTypes = {
+    onFirst: PropTypes.func.isRequired,
+    onPrev: PropTypes.func.isRequired,
+    onNext: PropTypes.func.isRequired,
+    onLast: PropTypes.func.isRequired
+};
+
 
 export default withStyles(styles)(Pager);
