@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ComicPage from './ComicPage';
 import Pager from './Pager';
@@ -20,7 +21,7 @@ class ComicBook extends React.Component
             pageIndex: null,
             page: null
         };
-        
+
         //pre-bind
         this.firstPage = this.firstPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
@@ -39,6 +40,23 @@ class ComicBook extends React.Component
         }
     }
 
+    /**
+     * scans forward or backward in the page list to find chapter pages. if pageIndex is a chapter page it will return it immediately.
+     * 
+     * @param forward_or_backward bool True: find forward, false: find backward.
+     * @param pageIndex int Index to start searching from.
+     * @returns int or null - if int it found a page, if null it could not find a chapter page.
+     */
+    findChapterPage(forward_or_backward, pageIndex){
+        let direction = forward_or_backward ? 1 : -1;
+        for(let i = pageIndex; i >= 0 && i < this.state.pages.length; i+=direction){
+            if(!this.state.pages[i].nonChapter){
+                return i;
+            }
+        }
+        return null;
+    }
+
     _setPage(pageIndex){
         const maxPage = this.state.pages.length - 1;
         if(pageIndex < 0 || pageIndex > maxPage){
@@ -52,20 +70,46 @@ class ComicBook extends React.Component
     nextPage(){
         // advance page but not past end
         let pageIndex = this.state.pageIndex + 1;
+        if(this.props.skipNonChapterPages){
+            pageIndex = this.findChapterPage(true, pageIndex);
+            if(!pageIndex){
+                return;
+            }
+        }
         this._setPage(pageIndex);
     }
 
     prevPage(){
         let pageIndex = this.state.pageIndex - 1;
+        if(this.props.skipNonChapterPages){
+            pageIndex = this.findChapterPage(false, pageIndex);
+            if(!pageIndex){
+                return;
+            }
+        }
         this._setPage(pageIndex);
     }
 
     firstPage(){
-        this._setPage(0);
+        let pageIndex = 0;
+        if(this.props.skipNonChapterPages){
+            pageIndex = this.findChapterPage(true, pageIndex);
+            if(!pageIndex){
+                return;
+            }
+        }
+        this._setPage(pageIndex);
     }
 
     lastPage(){
-        this._setPage(this.state.pages.length - 1);
+        let pageIndex = this.state.pages.length - 1;
+        if(this.props.skipNonChapterPages){
+            pageIndex = this.findChapterPage(true, pageIndex);
+            if(!pageIndex){
+                return;
+            }
+        }
+        this._setPage(pageIndex);
     }
 
     render(){
@@ -100,5 +144,10 @@ class ComicBook extends React.Component
     }
 
 }
+
+ComicBook.propTypes = {
+    series: PropTypes.object.isRequired,
+    skipNonChapterPages: PropTypes.bool.isRequired
+};
 
 export default withStyles(styles)(ComicBook);

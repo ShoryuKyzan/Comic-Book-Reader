@@ -95,20 +95,32 @@ export class Series {
             {
                 id: 1,
                 chapterId: 1,
+                image: 'images/2.jpg',
+                nonChapter: true
+            },
+            {
+                id: 2,
+                chapterId: 1,
                 image: 'images/1.jpg',
                 nonChapter: false
             },
             {
-                id: 2,
+                id: 3,
                 chapterId: 1,
                 image: 'images/2.jpg',
                 nonChapter: true
             },
             {
-                id: 3,
+                id: 4,
                 chapterId: 2,
                 image: 'images/3.jpg',
                 nonChapter: false
+            },
+            {
+                id: 5,
+                chapterId: 2,
+                image: 'images/2.jpg',
+                nonChapter: true
             }
         ];
         // TODO test below

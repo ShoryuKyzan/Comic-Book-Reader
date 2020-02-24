@@ -65,7 +65,10 @@ class SeriesPage extends React.Component
         const classes = this.props.classes;
         return (
             <div className={classes.content}>
-                <ComicBook series={this.props.series}/>
+                <ComicBook
+                    series={this.props.series}
+                    skipNonChapterPages={this.state.skipNonChapter}
+                />
                 <div>
                     <div className={classes.checkWrapper}>
                         <ThemedCheckbox
