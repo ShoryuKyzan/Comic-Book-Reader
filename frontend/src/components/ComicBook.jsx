@@ -20,6 +20,12 @@ class ComicBook extends React.Component
             pageIndex: null,
             page: null
         };
+        
+        //pre-bind
+        this.firstPage = this.firstPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.lastPage = this.lastPage.bind(this);
     }
 
     async componentDidUpdate(prevProps){
@@ -78,16 +84,17 @@ class ComicBook extends React.Component
             return (<div></div>);
         }
         const classes = this.props.classes;
+
         return (
             <div>
-                <div className={classes.wrapper} onClick={this.nextPage.bind(this)}>
+                <div className={classes.wrapper} onClick={this.nextPage}>
                     <ComicPage page={this.state.page}/>
                 </div>
                 <Pager
-                    onFirst={this.firstPage.bind(this)}
-                    onPrev={this.prevPage.bind(this)}
-                    onNext={this.nextPage.bind(this)}
-                    onLast={this.lastPage.bind(this)}/>
+                    onFirst={this.firstPage}
+                    onPrev={this.prevPage}
+                    onNext={this.nextPage}
+                    onLast={this.lastPage}/>
             </div>
         );
     }
