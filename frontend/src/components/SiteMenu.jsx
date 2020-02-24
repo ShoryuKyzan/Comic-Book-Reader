@@ -31,11 +31,13 @@ var styles = {
     },
     menuLink: {
         display: 'block',
-        padding: '0.3em 0.4em',
+        padding: '0.5em 1.4em',
         marginBottom: '0.5em',
-        width: '100%',
         background: 'white',
-        color: 'black'
+        color: 'black',
+        borderRadius: '0.8em',
+        textDecoration: 'none',
+        fontVariant: 'small-caps'
     },
     menuLinksWrapper: {
         width: '13em',

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Checkbox } from '@material-ui/core';
+import { ThemedCheckbox } from './ThemedCheckbox';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import ComicBook from './ComicBook';
@@ -8,15 +9,17 @@ import ChapterSelector from './ChapterSelector';
 var styles = {
     checkWrapper: {
         margin: '0 auto',
-        width: '14em'
+        width: '14em',
+        color: 'white'
     },
     chapterSelWrapper:{
         margin: '0 auto',
-        width: '10em'
+        width: '10em',
     },
     chapterSelLabel: {
         margin: '0 auto',
-        width: '4em'
+        width: '4em',
+        color: 'white'
     }
 }
 class SeriesPage extends React.Component
@@ -62,7 +65,7 @@ class SeriesPage extends React.Component
                 <ComicBook series={this.props.series}/>
                 <div>
                     <div className={classes.checkWrapper}>
-                        <Checkbox
+                        <ThemedCheckbox
                             onChange={(e) => this.setState({skipNonChapter: e.target.checked})} 
                             checked={this.state.skipNonChapter}/>Skip Non-Chapter pages
                     </div>

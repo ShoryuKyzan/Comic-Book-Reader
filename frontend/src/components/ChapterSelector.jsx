@@ -6,8 +6,8 @@ import { Select, MenuItem } from '@material-ui/core';
 const styles = {
     chapterSel: {
         width: '100%',
-        border: '1px solid darkblue',
-        backgroundColor: 'lightblue'
+        backgroundColor: 'lightblue',
+        borderRadius: '0.8em'
     }
 };  
 

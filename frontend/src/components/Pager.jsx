@@ -12,18 +12,19 @@ const styles = {
     button: {
         color: 'blue',
         backgroundColor: 'lightblue',
-        border: '1px solid blue',
+        border: 'transparent',
+        borderRadius: '0.6em',
         lineHeight: '0em',
         fontSize: '1.8em',
         verticalAlign: 'top',
         display: 'inline-block',
-        width: '1em',
-        height: '1.1em',
+        width: '1.8em',
+        height: '1.3em',
         margin: '0 0.2em',
-        padding: '0.1em 0',
+        padding: '0.3em 0.2em',
     },
     flButton: {
-        width: '1.5em'
+        width: '2.3em'
     }
 };  
 
