@@ -21,9 +21,14 @@ class ComicPage extends React.Component
 
     render(){
         const classes = this.props.classes;
+        let pageImg = "";
+        if(this.props.page){
+            pageImg = this.props.page.image;
+        }
+        
         return (
             <div>
-                <img className={classes.img} src="images/placeholder.jpg"/>
+                <img className={classes.img} src={pageImg}/>
             </div>
         );
     }

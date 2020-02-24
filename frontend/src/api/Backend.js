@@ -89,6 +89,31 @@ export class Series {
         return await callGETMethod(Series.PREFIX() + '/' + seriesId + Series.CHAPTER() + '/list');
     }
 
+    static async allPages(seriesId){
+        // XXX MOCK
+        return [
+            {
+                id: 1,
+                chapterId: 1,
+                image: 'images/1.jpg',
+                nonChapter: false
+            },
+            {
+                id: 2,
+                chapterId: 1,
+                image: 'images/2.jpg',
+                nonChapter: true
+            },
+            {
+                id: 3,
+                chapterId: 2,
+                image: 'images/3.jpg',
+                nonChapter: false
+            }
+        ];
+        // TODO test below
+        return await callGETMethod(Series.PREFIX() + '/' + seriesId + '/pages/list');
+    }
 }
 
 
