@@ -7,6 +7,9 @@ import ComicBook from './ComicBook';
 import ChapterSelector from './ChapterSelector';
 
 var styles = {
+    content: {
+        padding: '0 0 1em'
+    },
     checkWrapper: {
         margin: '0 auto',
         width: '14em',
@@ -61,7 +64,7 @@ class SeriesPage extends React.Component
     render(){
         const classes = this.props.classes;
         return (
-            <div>
+            <div className={classes.content}>
                 <ComicBook series={this.props.series}/>
                 <div>
                     <div className={classes.checkWrapper}>
