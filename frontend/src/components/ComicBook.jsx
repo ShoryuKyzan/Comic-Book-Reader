@@ -33,20 +33,47 @@ class ComicBook extends React.Component
         // load
         if(prevProps.series !== this.props.series){
             this.setState({series: this.props.series, pages: await Backend.Series.allPages(this.props.seriesId)});
-            // TODO need to do some magic if current page state isnt in this set... i guess go to first page if it changed or somethin
-            // XXX default behavior for now, first page
-            this.setState({pageIndex: 0});
-            this.setState({page: this.state.pages[this.state.pageIndex]});
-            this.props.onPageChanged(this.state.pages[this.state.pageIndex]);
+            // by default go to latest page
+            this._setPage(this.state.pages.length - 1);
+        }
+        // handle chapter change
+        if(prevProps.chapterId !== this.props.chapterId && this.props.chapterId){
+            // if already in this chapter, do not change pages
+            if(this.state.page.chapterId !== this.props.chapterId){
+                let pageIndex = this.findFirstPageOfChapter(this.props.chapterId);
+                if(this.props.skipNonChapterPages){
+                    pageIndex = this.findChapterPage(true, pageIndex);
+                }
+                console.log('pageIndex', pageIndex); // XXX
+                if(pageIndex !== null){
+                    this._setPage(pageIndex);
+                }
+            }
         }
     }
 
     /**
+     * Scans list for first page of desired chapter ID.
+     * 
+     * @param {int} chapterId 
+     * @return {int|null} Page index in list or null if this chapter is not found.
+     */
+    findFirstPageOfChapter(chapterId){
+        for(let i = 0; i < this.state.pages.length; i++){
+            const page = this.state.pages[i];
+            console.log('page', page, page.chapterId, chapterId);
+            if(page.chapterId === chapterId){
+                return i;
+            }
+        }
+        return null;
+    }
+    /**
      * scans forward or backward in the page list to find chapter pages. if pageIndex is a chapter page it will return it immediately.
      * 
-     * @param forward_or_backward bool True: find forward, false: find backward.
-     * @param pageIndex int Index to start searching from.
-     * @returns int or null - if int it found a page, if null it could not find a chapter page.
+     * @param {bool} forward_or_backward True: find forward, false: find backward.
+     * @param {int} pageIndex Index to start searching from.
+     * @returns {int|null} - if int it found a page, if null it could not find a chapter page.
      */
     findChapterPage(forward_or_backward, pageIndex){
         let direction = forward_or_backward ? 1 : -1;
@@ -150,6 +177,7 @@ class ComicBook extends React.Component
 ComicBook.propTypes = {
     series: PropTypes.object,
     onPageChanged: PropTypes.func,
+    chapterId: PropTypes.number,
     skipNonChapterPages: PropTypes.bool.isRequired
 };
 
