@@ -20,13 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+tscjpgg8^j_k-qc&i2vu#4tuho6%nh4yyi88h5mze-8nt@b!)'
+SECRET_KEY = '$^eo0dhiojhle%^8(%@zyn#agu@a@n@3vyamz12qaq@)&8%e_%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Warning.... this might allow CORS attacks or something
-ALLOWED_HOSTS = ['*.comicsite.com', 'comicsite.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'frontend'
+    'api.apps.ApiConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'frontend.middleware.dev_cors_middleware'
+    'api.middleware.dev_cors_middleware'
 ]
 
 ROOT_URLCONF = 'comicsite.urls'
@@ -87,6 +87,7 @@ DATABASES = {
     }
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -123,7 +124,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/' # xxx trying this
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend', 'templates', 'comicfrontend')
+STATIC_URL = '/static/'
