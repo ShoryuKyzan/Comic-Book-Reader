@@ -1,15 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link // XXX
+  Route
 } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import Backend from './api/Backend';
 
+import SiteMenu from './components/SiteMenu';
 import SeriesPage from './components/SeriesPage';
 import Header from './components/Header';
 
@@ -42,6 +41,8 @@ class App extends React.Component {
     this.state = {
       series: null
     };
+
+    this.siteMenu = React.createRef();
   }
 
   async componentDidMount(){
@@ -49,24 +50,32 @@ class App extends React.Component {
     this.setState({series});
   }
 
+  menuClick = () => {
+    if(this.siteMenu.current){
+      this.siteMenu.current.toggleMenuOpen();
+    }
+  }
+
   render() {
     const classes = this.props.classes;
     return (
-      <div className={classes.main}>
-        <Router>
-          <Header title={this.state.series ? this.state.series.name : ''}/>
-          <div className={classes.bodyWrapper}>
-            <Switch>
-              <Route path="/archive">
-                TODO archive page
-              </Route>
-              <Route path="/">
-                <SeriesPage series={this.state.series}/>
-              </Route>
-            </Switch>
+      <Router>
+        <SiteMenu ref={this.siteMenu}>
+          <div id='content' className={classes.main}>
+            <Header menuClick={this.menuClick} title={this.state.series ? this.state.series.name : ''}/>
+            <div className={classes.bodyWrapper}>
+              <Switch>
+                <Route path="/archive">
+                  TODO archive page
+                </Route>
+                <Route path="/">
+                  <SeriesPage series={this.state.series}/>
+                </Route>
+              </Switch>
+            </div>
           </div>
-        </Router>
-      </div>
+        </SiteMenu>
+      </Router>
     );
   }
 

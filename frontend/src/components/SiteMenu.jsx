@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import Sidebar from "react-sidebar";
 import { withStyles } from '@material-ui/core/styles';
-
+import Sidebar from "react-sidebar";
+import {DesktopSensor} from './util/ResponsiveWrapper';
 
 var sidebarStyle = {
     sidebar: {
@@ -12,19 +12,6 @@ var sidebarStyle = {
     }
 };
 var styles = {
-    menuButton: {
-        position: 'absolute',
-        top: '0.8em',
-        left: '1.3em',
-        width: '2.5em',
-        height: '2.5em',
-        background: 'lightblue url(images/menu.svg)',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center center',
-        padding: '1em',
-        border: 'none',
-        borderRadius: '0.5em'
-    },
     sidebar: {
         width: '100%',
         overflow: 'hidden'
@@ -52,49 +39,69 @@ var styles = {
     }
 };
 
-class SiteMenu extends React.Component
-{
-    constructor(props){
-        super(props);
-        this.state = {
-            menuOpen: false
-        };
+class SiteMenu extends React.Component {
 
-        this.sidebarStateChanged = this.sidebarStateChanged.bind(this);
-        this.closeMenu = this.closeMenu.bind(this);
-    }
+  constructor(props){
+    super(props);
 
-    /* sync state of menu with state of component */
-    sidebarStateChanged (open) {
-        this.setState({menuOpen: open})  
-    }
+    this.desktopSensor = new DesktopSensor(this.onDesktopMode);
 
-    closeMenu(){
-        this.setState({menuOpen: false});
-    }
-    
-    render(){
-        const classes = this.props.classes;
+    this.state = {
+      menuOpen: false,
+      desktopMode: this.desktopSensor.getState()
+    };
 
-        return (
-            <Sidebar
-                sidebar={
-                    <div className={classes.sidebar}>
-                        {/* TODO try and add a site title to sidebar */}
-                        <div className={classes.menuTitle}>{this.props.menuTitle}</div>
-                        <div className={classes.menuLinksWrapper}>
-                            <Link className={classes.menuLink} onClick={this.closeMenu} to="/">Home</Link>
-                            <Link className={classes.menuLink} onClick={this.closeMenu} to="/archive">Archive</Link>
-                        </div>
+    this.sidebarStateChanged = this.sidebarStateChanged.bind(this);
+  }
+
+  onDesktopMode = (desktopMode) => {
+    this.setState({desktopMode});
+  }
+
+  /* sync state of menu with state of component */
+  sidebarStateChanged (open) {
+    this.setState({menuOpen: open});
+  }
+
+  componentWillUnmount() {
+    this.desktopSensor.destroy();
+  }
+
+  toggleMenuOpen(){
+    this.setState({menuOpen: !this.state.menuOpen});
+  }
+
+  render(){
+    const classes = this.props.classes;
+
+    return (
+      <div>
+        <Sidebar
+            docked={this.state.desktopMode}
+            transitions={!this.state.desktopMode}
+            contentId="content"
+            sidebar={
+                <div className={classes.sidebar}>
+                    {/* TODO try and add a site title to sidebar */}
+                    <div className={classes.menuTitle}>{this.props.menuTitle}</div>
+                    <div className={classes.menuLinksWrapper}>
+                        <Link className={classes.menuLink} onClick={this.closeMenu} to="/">Home</Link>
+                        <Link className={classes.menuLink} onClick={this.closeMenu} to="/archive">Archive</Link>
                     </div>
-                }
-                open={this.state.menuOpen}
-                onSetOpen={this.sidebarStateChanged}
-                styles={sidebarStyle}>
-                    <button className={classes.menuButton} onClick={() => this.sidebarStateChanged(true)}></button>
-            </Sidebar>
-        );
-    }
+                </div>
+            }
+            open={this.state.menuOpen}
+            onSetOpen={this.sidebarStateChanged}
+            styles={sidebarStyle} >
+          
+
+            {this.props.children}
+
+        </Sidebar>
+      </div>
+    );
+  }
 }
+
 
 export default withStyles(styles)(SiteMenu);
