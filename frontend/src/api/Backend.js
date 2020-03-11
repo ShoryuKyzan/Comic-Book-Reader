@@ -1,12 +1,13 @@
 // production url, this may be typically baked into configuration instead of here
-var BACKEND_URL = 'http://api.comicsite.com';
+var BACKEND_URL = 'http://' + window.location.hostname + ':8000';
 var developmentMode = false;
 var productionMode = true;
 
 // If in development mode, change the backend url
 if(window.location.port === '3000')
 {
-    BACKEND_URL = 'http://api.comicsite.com:8000'
+    // XXX yes i know its the same... normally it would be different
+    BACKEND_URL = 'http://' + window.location.hostname + ':8000';
     developmentMode = true;
     productionMode = false;
 }
@@ -99,7 +100,7 @@ export class Series {
                 chapterId: 1,
                 image: 'images/1.jpg',
                 nonChapter: false
-            },
+            },  
             {
                 id: 3,
                 chapterId: 1,

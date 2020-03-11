@@ -44,7 +44,6 @@ class ComicBook extends React.Component
                 if(this.props.skipNonChapterPages){
                     pageIndex = this.findChapterPage(true, pageIndex);
                 }
-                console.log('pageIndex', pageIndex); // XXX
                 if(pageIndex !== null){
                     this._setPage(pageIndex);
                 }
