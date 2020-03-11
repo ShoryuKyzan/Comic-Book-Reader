@@ -44,10 +44,6 @@ function callGETMethod(uri){
 }
 
 export class Series {
-        
-    // these are defined as variables so that they can be changed in one place
-    static SERIES () { return '/series'}; // cant do this any other way in ES6 right now
-    static CHAPTER () { return '/chapters'}; // cant do this any other way in ES6 right now
 
     static async getByName(name){
         // XXX MOCK
@@ -57,7 +53,7 @@ export class Series {
         };
 
         // TODO test below
-        return await callGETMethod(Series.SERIES() + '/search/' + name);
+        return await callGETMethod('/series/search?q=' + name);
     }
 
     static async chapters(seriesId){
@@ -86,7 +82,7 @@ export class Series {
         ];
 
         // TODO test below
-        return await callGETMethod(Series.PREFIX() + '/' + seriesId + Series.CHAPTER() + '/list');
+        return await callGETMethod('/series/' + seriesId + '/chapters/list');
     }
 
     static async allPages(seriesId){
@@ -124,7 +120,7 @@ export class Series {
             }
         ];
         // TODO test below
-        return await callGETMethod(Series.PREFIX() + '/' + seriesId + '/pages/list');
+        return await callGETMethod('/series/' + seriesId + '/pages/list');
     }
 }
 
